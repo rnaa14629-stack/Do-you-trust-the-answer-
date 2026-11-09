@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>هل تثق بالإجابة؟ | AI Through My Eyes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --bg:#100d18;
+  --panel:#1b1525;
+  --panel2:#241b30;
+  --pink:#f3a8ca;
+  --rose:#d987b6;
+  --mauve:#bd91cf;
+  --purple:#9876bd;
+  --lavender:#d7c1ee;
+  --white:#f8f0fa;
+  --muted:#aa9db5;
+  --line:rgba(224,174,218,.17);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  background:
+  radial-gradient(ellipse at 15% 10%,rgba(184,116,180,.13),transparent 35%),
+  radial-gradient(ellipse at 90% 45%,rgba(235,145,192,.09),transparent 35%),
+  var(--bg);
+  color:var(--white);
+  font-family:'IBM Plex Sans Arabic',sans-serif;
+  overflow-x:hidden;
+}
+button{font-family:inherit;cursor:pointer}
+a{color:var(--pink)}
+::selection{background:var(--pink);color:#160f1d}
+
+.noise{
+ position:fixed;inset:0;pointer-events:none;opacity:.035;z-index:5;
+ background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E");
+}
+.topbar{
+ position:fixed;top:0;left:0;right:0;z-index:20;
+ display:flex;align-items:center;justify-content:space-between;
+ padding:15px 5%;background:rgba(16,13,24,.82);
+ backdrop-filter:blur(18px);border-bottom:1px solid var(--line);
+}
+.brand{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:2px;color:var(--pink)}
+.nav{display:flex;gap:19px}
+.nav a{text-decoration:none;color:var(--muted);font-size:12px}
+.nav a:hover{color:var(--pink)}
+@media(max-width:650px){.nav{display:none}}
+
+main{max-width:1120px;margin:auto;padding:0 22px}
+section{padding:100px 0 55px;scroll-margin-top:65px}
+
+.hero{
+ min-height:100vh;display:flex;flex-direction:column;justify-content:center;
+ position:relative;padding-top:120px;
+}
+.hero:before{
+ content:"";position:absolute;width:380px;height:380px;border-radius:50%;
+ background:radial-gradient(circle,rgba(215,145,205,.18),transparent 70%);
+ top:22%;left:4%;filter:blur(10px);pointer-events:none;
+}
+.eyebrow{
+ color:var(--pink);font-family:'Space Mono',monospace;font-size:11px;
+ letter-spacing:2px;margin-bottom:20px;
+}
+.hero h1{font-size:clamp(45px,8vw,94px);line-height:1.15;margin:0;max-width:850px}
+.hero h1 span{
+ background:linear-gradient(100deg,#f6b5d4,#c89bdb,#9876bd);
+ -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+.hero-sub{font-size:17px;color:var(--muted);max-width:610px;line-height:2;margin:25px 0}
+.hero-meta{display:flex;gap:12px;flex-wrap:wrap;margin-top:22px}
+.pill{
+ border:1px solid var(--line);padding:9px 15px;border-radius:30px;
+ color:var(--lavender);font-size:12px;background:rgba(255,255,255,.025)
+}
+.primary{
+ background:linear-gradient(110deg,var(--rose),var(--purple));
+ border:0;color:#1b1020;padding:14px 25px;border-radius:7px;
+ font-weight:700;font-size:14px;transition:.25s;
+}
+.primary:hover{transform:translateY(-3px);box-shadow:0 10px 35px #d987b633}
+.secondary{
+ background:transparent;border:1px solid var(--line);color:var(--pink);
+ padding:12px 20px;border-radius:7px;font-size:13px;
+}
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:15px}
+.scroll-hint{margin-top:65px;color:var(--muted);font-size:11px;letter-spacing:2px}
+
+.section-head{margin-bottom:35px}
+.kicker{font-family:'Space Mono',monospace;color:var(--rose);font-size:11px;letter-spacing:2px}
+h2{font-size:clamp(29px,5vw,48px);margin:10px 0;line-height:1.4}
+.section-desc{color:var(--muted);line-height:2;max-width:700px;font-size:15px}
+.panel{
+ background:linear-gradient(145deg,rgba(39,29,51,.93),rgba(24,19,33,.96));
+ border:1px solid var(--line);border-radius:16px;padding:26px;
+ box-shadow:0 20px 60px rgba(0,0,0,.12);
+}
+.statement{
+ font-size:clamp(21px,3.2vw,32px);line-height:1.9;color:#f5d8eb;
+ border-right:3px solid var(--pink);padding-right:22px;margin:10px 0;
+}
+.small{font-size:12px;color:var(--muted);line-height:1.9}
+
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+@media(max-width:760px){.grid{grid-template-columns:1fr}}
+.app-card{
+ padding:24px;border:1px solid var(--line);border-radius:13px;
+ background:rgba(255,255,255,.025);min-height:220px;
+}
+.app-icon{font-size:25px;margin-bottom:18px}
+.app-card h3{margin:0 0 12px;color:var(--lavender);font-size:19px}
+.app-card p{color:var(--muted);font-size:13px;line-height:2;margin:0}
+.note{
+ margin-top:18px;padding:15px 18px;border-radius:9px;
+ background:rgba(217,135,182,.08);border:1px solid rgba(217,135,182,.2);
+ color:#e8c9e0;font-size:13px;line-height:2;
+}
+
+.case-list{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:30px 0}
+@media(max-width:700px){.case-list{grid-template-columns:1fr}}
+.case-btn{
+ text-align:right;background:var(--panel);border:1px solid var(--line);
+ border-radius:12px;padding:20px;color:var(--white);transition:.2s;
+}
+.case-btn:hover,.case-btn.active{
+ border-color:var(--pink);background:linear-gradient(140deg,#34243a,#211a2d);
+ transform:translateY(-2px)
+}
+.case-btn .num{font-family:'Space Mono';color:var(--pink);font-size:12px}
+.case-btn strong{display:block;margin:12px 0 5px;font-size:16px}
+.case-btn small{color:var(--muted)}
+.case-content{display:none;animation:fade .45s ease}
+.case-content.active{display:block}
+@keyframes fade{
+ from{opacity:0;transform:translateY(10px)}
+ to{opacity:1;transform:translateY(0)}
+}
+.question{
+ font-size:19px;line-height:2;color:#f6d9ec;
+ padding:20px;border-right:2px solid var(--mauve);
+ background:rgba(189,145,207,.07);border-radius:8px;margin:20px 0;
+}
+.answer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:20px 0}
+@media(max-width:760px){.answer-grid{grid-template-columns:1fr}}
+.answer{
+ border:1px solid var(--line);background:#211a2b;color:var(--white);
+ border-radius:11px;padding:19px;text-align:right;min-height:180px;
+ transition:.2s;line-height:1.9;
+}
+.answer:hover{border-color:var(--mauve)}
+.answer.selected{
+ border:1px solid var(--pink);background:#38263a;
+ box-shadow:0 0 25px #e6a4ce17
+}
+.answer .letter{font-family:'Space Mono';color:var(--pink);font-size:13px}
+.answer p{font-size:13px;color:#d8cbdc;margin:12px 0}
+.reveal{
+ display:none;margin-top:25px;padding:25px;border-radius:12px;
+ background:linear-gradient(135deg,rgba(215,145,205,.12),rgba(152,118,189,.09));
+ border:1px solid rgba(215,145,205,.3);animation:fade .4s ease;
+}
+.reveal.show{display:block}
+.result-title{color:var(--pink);font-size:19px;margin-bottom:12px}
+.result-text{color:#d9ccdf;font-size:14px;line-height:2.1}
+.model-tags{display:flex;gap:8px;flex-wrap:wrap;margin:15px 0}
+.model-tags span{font-size:11px;padding:7px 11px;border-radius:20px;background:#392941;color:#f0cce5}
+.source-link{display:inline-block;margin-top:10px;font-size:12px}
+.analysis-box{display:grid;grid-template-columns:1fr 1fr;gap:15px;margin-top:20px}
+@media(max-width:700px){.analysis-box{grid-template-columns:1fr}}
+.analysis-box div{
+ padding:18px;background:rgba(255,255,255,.025);
+ border:1px solid var(--line);border-radius:9px
+}
+.analysis-box strong{color:var(--lavender);display:block;margin-bottom:8px}
+.analysis-box p{color:var(--muted);font-size:13px;line-height:2;margin:0}
+.progress{height:3px;background:#34283c;border-radius:10px;margin:25px 0}
+.progress span{
+ display:block;height:100%;width:0;
+ background:linear-gradient(90deg,var(--pink),var(--purple));transition:.3s
+}
+.counter{font-family:'Space Mono';color:var(--pink);font-size:11px}
+
+.finding{
+ padding:28px;border-radius:15px;border:1px solid rgba(243,168,202,.3);
+ background:linear-gradient(135deg,rgba(243,168,202,.09),rgba(152,118,189,.1));
+}
+.finding blockquote{font-size:clamp(21px,3vw,31px);line-height:1.8;margin:0;color:#f5d8eb}
+.finding p{color:var(--muted);line-height:2;font-size:14px}
+
+.steps{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+@media(max-width:700px){.steps{grid-template-columns:1fr}}
+.step{padding:20px;border:1px solid var(--line);border-radius:11px;background:#1b1624}
+.step .number{font-family:'Space Mono';color:var(--pink)}
+.step h3{color:var(--lavender);font-size:16px}
+.step p{color:var(--muted);font-size:13px;line-height:2}
+
+.final-line{
+ font-size:clamp(25px,4vw,42px);line-height:1.8;text-align:center;
+ background:linear-gradient(90deg,#f3b3d2,#c9a5dd,#f3b3d2);
+ -webkit-background-clip:text;background-clip:text;color:transparent;
+}
+footer{
+ border-top:1px solid var(--line);padding:35px 20px;
+ text-align:center;color:var(--muted);font-size:11px;line-height:2;
+}
+.sources a{
+ display:block;padding:13px 0;border-bottom:1px solid var(--line);
+ text-decoration:none;font-size:13px;color:var(--lavender);
+}
+.sources a:hover{color:var(--pink)}
+</style>
+</head>
+
+<body>
+<div class="noise"></div>
+
+<header class="topbar">
+  <div class="brand">AI THROUGH MY EYES / 2026</div>
+  <nav class="nav">
+    <a href="#perspective">رؤيتي</a>
+    <a href="#around">حولنا</a>
+    <a href="#investigation">التحقيق</a>
+    <a href="#journey">رحلتي</a>
+  </nav>
+</header>
+
+<main>
+
+<!-- INTRO -->
+<section class="hero" id="home">
+  <div class="eyebrow">A DIGITAL INVESTIGATION — 001</div>
+  <h1>هل تثق<br><span>بالإجابة؟</span></h1>
+  <p class="hero-sub">
+    ثلاثة نماذج ذكاء اصطناعي، وأسئلة واحدة، وإجابات قد تبدو متشابهة ومقنعة.
+    لكن هل يعني اتفاقها أنها صحيحة؟
+  </p>
+  <div class="hero-actions">
+    <button class="primary" onclick="document.querySelector('#perspective').scrollIntoView({behavior:'smooth'})">
+      ابدأ التجربة ←
+    </button>
+    <a class="secondary" href="#investigation" style="text-decoration:none">انتقل إلى التحقيق</a>
+  </div>
+  <div class="hero-meta">
+    <span class="pill">3 نماذج ذكاء اصطناعي</span>
+    <span class="pill">3 أسئلة واقعية</span>
+    <span class="pill">تحقق من المصادر</span>
+  </div>
+  <div class="scroll-hint">SCROLL TO EXPLORE ↓</div>
+</section>
+
+<!-- AI IN MY WORDS -->
+<section id="perspective">
+  <div class="section-head">
+    <div class="kicker">01 / AI IN MY WORDS</div>
+    <h2>كيف أرى الذكاء الاصطناعي؟</h2>
+    <p class="section-desc">
+      ليس مجرد تقنية تجيب عن الأسئلة، بل أداة أصبحت حاضرة في تفاصيل كثيرة من حياتنا.
+    </p>
+  </div>
+  <div class="panel">
+    <div class="statement">
+      أرى الذكاء الاصطناعي أداة ذكية تساعدنا في إنجاز الكثير من المهام، وتفتح لنا طرقًا جديدة للتعلم والإبداع، لكنها لا تغني عن التفكير البشري، ولا ينبغي أن نعتمد عليها اعتمادًا كليًا.
+    </div>
+    <p class="small">
+      قد يقدم الذكاء الاصطناعي إجابة منظمة وواثقة، لكن مسؤولية فهمها وتقييمها والتحقق منها تبقى علينا.
+    </p>
+  </div>
+</section>
+
+<!-- AI AROUND US -->
+<section id="around">
+  <div class="section-head">
+    <div class="kicker">02 / AI AROUND US</div>
+    <h2>الذكاء الاصطناعي حولنا</h2>
+    <p class="section-desc">
+      قد نستخدمه أو نستفيد من نتائجه دون أن نلاحظ وجوده. هذه ثلاثة مجالات يظهر فيها أثره.
+    </p>
+  </div>
+
+  <div class="grid">
+    <article class="app-card">
+      <div class="app-icon">✦</div>
+      <h3>التعليم والتعلم</h3>
+      <p>
+        يساعد في شرح المفاهيم، وتلخيص المعلومات، وتقديم تدريبات وتفسيرات تتناسب مع احتياجات المتعلم. لكنه لا يعفي الطالب من فهم المعلومة ومراجعتها.
+      </p>
+    </article>
+
+    <article class="app-card">
+      <div class="app-icon">⌁</div>
+      <h3>الطب والرعاية الصحية</h3>
+      <p>
+        تُستخدم تقنيات الذكاء الاصطناعي في دعم تحليل الصور الطبية واكتشاف أنماط قد تساعد المختصين في التقييم واتخاذ القرار، مع بقاء دور الطبيب أساسيًا.
+      </p>
+    </article>
+
+    <article class="app-card">
+      <div class="app-icon">◎</div>
+      <h3>الفضاء والاستكشاف</h3>
+      <p>
+        يساعد في تحليل كميات كبيرة من البيانات والصور الفضائية، ورصد الأنماط، ودعم التخطيط للمهام العلمية والاستكشافية.
+      </p>
+    </article>
+  </div>
+
+  <div class="note">
+    الفكرة ليست أن الذكاء الاصطناعي يستبدل الإنسان في هذه المجالات، بل أنه قد يكون أداة مساعدة ترفع قدرته على التحليل والعمل.
+  </div>
+</section>
+
+<!-- INVESTIGATION -->
+<section id="investigation">
+  <div class="section-head">
+    <div class="kicker">03 / THE INVESTIGATION</div>
+    <h2>ثلاثة نماذج. الأسئلة نفسها.</h2>
+    <p class="section-desc">
+      بدأت الفكرة من تجربة شخصية أثناء المذاكرة والاستعداد للاختبارات؛ كنت أطرح السؤال نفسه على أكثر من نموذج ذكاء اصطناعي، وأقارن بين الإجابات. لاحظت أن بعضها يتفق وبعضها يختلف، وأن الإجابة مهما بدت مقنعة أو تشابهت مع إجابات أخرى، فليس بالضرورة أن تكون صحيحة. ومن هنا جاءت فكرة هذه التجربة لاختبار موثوقية الإجابات والتحقق منها.
+    </p>
+  </div>
+
+  <div class="panel">
+    <div class="counter">INVESTIGATION FILES / اختر ملفًا لفتحه</div>
+
+    <div class="case-list">
+      <button class="case-btn active" onclick="openCase(0,this)">
+        <span class="num">CASE 001</span>
+        <strong>خطأ بلا رسالة خطأ</strong>
+        <small>JavaScript / البرمجة</small>
+      </button>
+
+      <button class="case-btn" onclick="openCase(1,this)">
+        <span class="num">CASE 002</span>
+        <strong>هل يحذف السجل المرتبط؟</strong>
+        <small>Database / قواعد البيانات</small>
+      </button>
+
+      <button class="case-btn" onclick="openCase(2,this)">
+        <span class="num">CASE 003</span>
+        <strong>هل الاتفاق دليل؟</strong>
+        <small>AI Reliability / موثوقية الذكاء</small>
+      </button>
+    </div>
+
+    <div class="progress"><span id="progressBar"></span></div>
+
+    <!-- CASE 1 -->
+    <div class="case-content active" id="case0">
+      <div class="counter">CASE 001 — LOGICAL ERROR</div>
+
+      <div class="question">
+        لدي كود JavaScript يعمل دون ظهور أخطاء، لكنه يعطي نتيجة غير صحيحة. هل يعني عدم ظهور أخطاء أن الكود صحيح؟ اشرح الفرق مع مثال.
+      </div>
+
+      <p class="small">
+        تمثل البطاقات التالية ملخصًا لمضمون إجابات النماذج، وليست اقتباسات حرفية منها. اختر إجابة، ثم اكشف التحليل.
+      </p>
+
+      <div class="answer-grid">
+        <button class="answer" onclick="choose(this,'c1','A')">
+          <span class="letter">ANSWER A</span>
+          <p>
+            قد يعمل الكود دون أخطاء ظاهرة، ومع ذلك يحتوي على خطأ منطقي. مثال ذلك استخدام الجمع بدل الطرح عند حساب السعر بعد الخصم.
+          </p>
+        </button>
+
+        <button class="answer" onclick="choose(this,'c1','B')">
+          <span class="letter">ANSWER B</span>
+          <p>
+            عدم ظهور رسالة خطأ لا يثبت صحة النتيجة. يجب اختبار المنطق ومقارنة الناتج بالقيمة المتوقعة.
+          </p>
+        </button>
+
+        <button class="answer" onclick="choose(this,'c1','C')">
+          <span class="letter">ANSWER C</span>
+          <p>
+            قد تكون المشكلة في أولوية العمليات الحسابية؛ فالقسمة تُنفذ قبل الجمع، وقد ينتج عن ذلك متوسط غير صحيح.
+          </p>
+        </button>
+      </div>
+
+      <button class="primary" onclick="reveal('c1')">اكشف التحليل</button>
+
+      <div class="reveal" id="reveal-c1">
+        <div class="result-title">نتيجة التحقيق</div>
+        <div class="model-tags">
+          <span>A — ChatGPT</span>
+          <span>B — Gemini</span>
+          <span>C — Microsoft Copilot</span>
+        </div>
+
+        <p class="result-text">
+          اتفقت الإجابات على أن عدم ظهور خطأ برمجي لا يعني أن المنطق صحيح. وقدمت أمثلة مختلفة لتوضيح الفكرة. تميز مثال Copilot بأنه عرض خطأ أولوية العمليات بصورة واضحة:
+        </p>
+
+        <pre dir="ltr" style="background:#100d18;padding:17px;border-radius:9px;overflow:auto;color:#efc5e3;font-size:13px"><code>let a = 10;
+let b = 20;
+
+let average = a + b / 2;
+console.log(average); // 20</code></pre>
+
+        <p class="result-text">
+          الناتج 20 وليس 15؛ لأن القسمة تنفذ قبل الجمع. التصحيح:
+        </p>
+
+        <pre dir="ltr" style="background:#100d18;padding:17px;border-radius:9px;overflow:auto;color:#efc5e3;font-size:13px"><code>let average = (a + b) / 2;
+console.log(average); // 15</code></pre>
+
+        <div class="analysis-box">
+          <div>
+            <strong>ما الذي تحققنا منه؟</strong>
+            <p>أولوية العمليات الحسابية في JavaScript، وأن الكود قد ينفذ بنجاح رغم وجود خطأ في النتيجة.</p>
+          </div>
+          <div>
+            <strong>الاستنتاج</strong>
+            <p>قد تتفق النماذج على الفكرة العامة، لكن جودة المثال ووضوح تفسيره يختلفان.</p>
+          </div>
+        </div>
+
+        <a class="source-link" target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Operator_precedence">
+          المصدر: MDN — Operator precedence ↗️
+        </a>
+      </div>
+    </div>
+
+    <!-- CASE 2 -->
+    <div class="case-content" id="case1">
+      <div class="counter">CASE 002 — DATABASE CONSTRAINTS</div>
+
+      <div class="question">
+        إذا حذفت سجلًا من جدول في قاعدة بيانات، فهل تُحذف تلقائيًا السجلات المرتبطة به في الجداول الأخرى؟ وضّح متى يحدث ذلك.
+      </div>
+
+      <p class="small">اختر الإجابة الأقرب إلى ما توصلت إليه النماذج.</p>
+
+      <div class="answer-grid">
+        <button class="answer" onclick="choose(this,'c2','A')">
+          <span class="letter">ANSWER A</span>
+          <p>
+            لا يحدث الحذف تلقائيًا دائمًا؛ يعتمد ذلك على إعداد المفتاح الأجنبي، وقد يمنع النظام الحذف إذا كانت هناك سجلات مرتبطة.
+          </p>
+        </button>
+
+        <button class="answer" onclick="choose(this,'c2','B')">
+          <span class="letter">ANSWER B</span>
+          <p>
+            يمكن أن يؤدي حذف السجل الأساسي إلى حذف السجلات التابعة إذا تم إعداد قاعدة ON DELETE CASCADE.
+          </p>
+        </button>
+
+        <button class="answer" onclick="choose(this,'c2','C')">
+          <span class="letter">ANSWER C</span>
+          <p>
+            يعتمد السلوك على العلاقة بين الجداول وعلى الإجراء المحدد عند حذف السجل المشار إليه بالمفتاح الأجنبي.
+          </p>
+        </button>
+      </div>
+
+      <button class="primary" onclick="reveal('c2')">اكشف التحليل</button>
+
+      <div class="reveal" id="reveal-c2">
+        <div class="result-title">نتيجة التحقيق</div>
+        <div class="model-tags">
+          <span>A — ChatGPT</span>
+          <span>B — Gemini</span>
+          <span>C — Microsoft Copilot</span>
+        </div>
+
+        <p class="result-text">
+          اتفقت النماذج الثلاثة على أن الحذف ليس تلقائيًا في كل الحالات، وأن السلوك يعتمد على إعداد المفتاح الأجنبي.
+          ومن أهم الخيارات:
+        </p>
+
+        <div class="analysis-box">
+          <div>
+            <strong>ON DELETE CASCADE</strong>
+            <p>يحذف السجلات التابعة تلقائيًا عند حذف السجل المشار إليه.</p>
+          </div>
+          <div>
+            <strong>RESTRICT / NO ACTION</strong>
+            <p>قد يمنع حذف السجل الأساسي إذا كانت هناك سجلات مرتبطة به، وفقًا لقواعد النظام وتوقيت التحقق.</p>
+          </div>
+          <div>
+            <strong>SET NULL</strong>
+            <p>يجعل قيمة المفتاح الأجنبي في السجلات التابعة NULL إذا كان العمود يسمح بذلك.</p>
+          </div>
+          <div>
+            <strong>SET DEFAULT</strong>
+            <p>يعيد قيمة المفتاح الأجنبي إلى القيمة الافتراضية إذا كان الإعداد مدعومًا ومناسبًا.</p>
+          </div>
+        </div>
+
+        <p class="result-text">
+          هذا يعني أن فهم العلاقة بين الجداول وإعدادات الحذف أهم من افتراض أن كل حذف ينتج عنه السلوك نفسه.
+        </p>
+
+        <a class="source-link" target="_blank" href="https://www.postgresql.org/docs/current/ddl-constraints.html">
+          المصدر الرسمي: PostgreSQL — Constraints ↗️
+        </a>
+      </div>
+    </div>
+
+    <!-- CASE 3 -->
+    <div class="case-content" id="case2">
+      <div class="counter">CASE 003 — THE AGREEMENT TRAP</div>
+
+      <div class="question">
+        إذا أعطتني ثلاثة نماذج ذكاء اصطناعي الإجابة نفسها، فهل هذا دليل كافٍ على صحتها؟ ولماذا؟
+      </div>
+
+      <p class="small">
+        هذا السؤال هو جوهر التجربة. هل يكفي أن تتكرر الإجابة حتى نثق بها؟
+      </p>
+
+      <div class="answer-grid">
+        <button class="answer" onclick="choose(this,'c3','A')">
+          <span class="letter">ANSWER A</span>
+          <p>
+            لا، لأن النماذج قد تتفق على إجابة خاطئة، ولذلك يجب التحقق من المعلومات بالرجوع إلى مصادر موثوقة.
+          </p>
+        </button>
+
+        <button class="answer" onclick="choose(this,'c3','B')">
+          <span class="letter">ANSWER B</span>
+          <p>
+            اتفاق أكثر من نموذج قد يزيد الاطمئنان، لكنه لا يكفي وحده لإثبات صحة المعلومة.
+          </p>
+        </button>
+
+        <button class="answer" onclick="choose(this,'c3','C')">
+          <span class="letter">ANSWER C</span>
+          <p>
+            قد تتشابه أخطاء النماذج، خاصة عندما لا تكون مخرجاتها مستقلة تمامًا؛ لذلك لا بد من التحقق الخارجي.
+          </p>
+        </button>
+      </div>
+
+      <button class="primary" onclick="reveal('c3')">اكشف التحليل</button>
+
+      <div class="reveal" id="reveal-c3">
+        <div class="result-title">نتيجة التحقيق</div>
+        <div class="model-tags">
+          <span>A — ChatGPT</span>
+          <span>B — Gemini</span>
+          <span>C — Microsoft Copilot</span>
+        </div>
+
+        <p class="result-text">
+          اتفقت النماذج الثلاثة على النتيجة الأساسية: الاتفاق لا يمثل دليلًا كافيًا على صحة الإجابة.
+          واختلفت في طريقة التفسير؛ فبعضها ركز على احتمال تكرار الخطأ، وبعضها وضح أن الاتفاق قد يزيد الثقة لكنه لا يثبت الحقيقة.
+        </p>
+
+        <div class="analysis-box">
+          <div>
+            <strong>ما الذي كشفته الدراسة؟</strong>
+            <p>بحث علمي منشور في ICML 2025 درس ظاهرة الأخطاء المترابطة بين نماذج اللغة الكبيرة.</p>
+          </div>
+          <div>
+            <strong>لماذا يهمنا ذلك؟</strong>
+            <p>لأن تعدد النماذج لا يعني بالضرورة تعدد الأدلة المستقلة. قد تتشابه بعض مصادر المعلومات أو أنماط الاستجابة.</p>
+          </div>
+        </div>
+
+        <a class="source-link" target="_blank" href="https://proceedings.mlr.press/v267/kim25e.html">
+          المصدر البحثي: Correlated Errors in Large Language Models — ICML 2025 ↗️
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SURPRISE -->
+<section id="surprise">
+  <div class="section-head">
+    <div class="kicker">04 / WHAT SURPRISED ME</div>
+    <h2>ما الذي أثار فضولي؟</h2>
+    <p class="section-desc">
+      كانت أكثر نقطة لفتت انتباهي هي العلاقة بين تشابه الإجابات وصحتها.
+    </p>
+  </div>
+
+  <div class="finding">
+    <blockquote>
+      قد تكون الإجابات متشابهة، ومقنعة، وصادرة عن أكثر من نموذج... ومع ذلك لا تكون صحيحة.
+    </blockquote>
+    <p>
+      كنت أظن أن تكرار الإجابة من أكثر من نموذج قد يكون مؤشرًا كافيًا للاطمئنان. لكن المقارنة جعلتني أنتبه إلى أن الاتفاق وحده لا يثبت صحة المعلومة، وأن النماذج قد تشترك في بعض الأخطاء.
+    </p>
+  </div>
+
+  <div class="note">
+    الفكرة الأساسية: لا تجعل ثقتك في الإجابة مبنية على عدد النماذج التي كررتها، بل على قوة الدليل الذي يدعمها.
+  </div>
+</section>
+
+<!-- HOW AI HELPED -->
+<section id="journey">
+  <div class="section-head">
+    <div class="kicker">05 / HOW AI HELPED ME</div>
+    <h2>كيف ساعدني الذكاء الاصطناعي؟</h2>
+    <p class="section-desc">
+      استخدمت أدوات الذكاء الاصطناعي كوسيلة مساعدة في تنفيذ التجربة، مع الاحتفاظ بدوري في الاختيار والمراجعة والتقييم.
+    </p>
+  </div>
+
+  <div class="steps">
+    <article class="step">
+      <div class="number">01 / CHATGPT</div>
+      <h3>المساعدة في بناء التجربة</h3>
+      <p>
+        ساعدني في تطوير الفكرة وتنظيم محتوى المشروع، والمساعدة في كتابة الكود وبناء واجهة التجربة التفاعلية.
+      </p>
+    </article>
+
+    <article class="step">
+      <div class="number">02 / GEMINI</div>
+      <h3>مقارنة الإجابات</h3>
+      <p>
+        استخدمته للإجابة عن الأسئلة نفسها، ثم قارنت مخرجاته بمخرجات النماذج الأخرى.
+      </p>
+    </article>
+
+    <article class="step">
+      <div class="number">03 / MICROSOFT COPILOT</div>
+      <h3>اختبار نموذج آخر</h3>
+      <p>
+        استخدمته للإجابة عن الأسئلة نفسها، بهدف ملاحظة أوجه الاتفاق والاختلاف بين الإجابات.
+      </p>
+    </article>
+
+    <article class="step">
+      <div class="number">04 / MY ROLE</div>
+      <h3>دوري في التجربة</h3>
+      <p>
+        اخترت فكرة المشروع، وصغت الأسئلة، وجربت النماذج، وقارنت الإجابات، وراجعت المعلومات والمصادر، واخترت طريقة عرض النتائج والتصميم.
+      </p>
+    </article>
+  </div>
+
+  <div class="note">
+    لم أتعامل مع مخرجات الذكاء الاصطناعي على أنها حقائق جاهزة؛ بل استخدمتها كنقطة بداية للمقارنة والتحقق، مع مراجعة المعلومات بالرجوع إلى مصادرها.
+  </div>
+</section>
+
+<!-- CONCLUSION -->
+<section id="conclusion">
+  <div class="section-head">
+    <div class="kicker">FINAL REPORT / CONCLUSION</div>
+    <h2>الحقيقة ليست في عدد الإجابات</h2>
+  </div>
+
+  <div class="panel" style="padding:35px">
+    <p class="final-line">
+      لا تسأل فقط: كم نموذجًا وافق على الإجابة؟
+      <br>بل اسأل: ما الدليل على أنها صحيحة؟
+    </p>
+    <p class="small" style="text-align:center;margin-top:20px">
+      الذكاء الاصطناعي أداة قوية، لكن التفكير النقدي والتحقق من المعلومات يظلان جزءًا أساسيًا من استخدامها بوعي.
+    </p>
+  </div>
+</section>
+
+<!-- SOURCES -->
+<section id="sources">
+  <div class="section-head">
+    <div class="kicker">REFERENCES / SOURCES</div>
+    <h2>المصادر والمراجع</h2>
+    <p class="section-desc">
+      مصادر علمية وتقنية استخدمتها للتحقق من النقاط الأساسية في التجربة.
+    </p>
+  </div>
+
+  <div class="panel sources">
+    <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Operator_precedence">
+      01 — MDN Web Docs: JavaScript Operator Precedence ↗️
+    </a>
+    <a target="_blank" href="https://www.postgresql.org/docs/current/ddl-constraints.html">
+      02 — PostgreSQL Documentation: Constraints and Foreign Keys ↗️
+    </a>
+    <a target="_blank" href="https://proceedings.mlr.press/v267/kim25e.html">
+      03 — ICML 2025: Correlated Errors in Large Language Models ↗️
+    </a>
+    <a target="_blank" href="https://www.unesco.org/en/digital-education/artificial-intelligence">
+      04 — UNESCO: Artificial Intelligence in Education ↗️
+    </a>
+    <a target="_blank" href="https://www.fda.gov/medical-devices/software-medical-device-samd/artificial-intelligence-enabled-medical-devices">
+      05 — FDA: Artificial Intelligence-Enabled Medical Devices ↗️
+    </a>
+    <a target="_blank" href="https://www.nasa.gov/">
+      06 — NASA: Space Exploration and Research ↗️
+    </a>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="brand">AI THROUGH MY EYES</div>
+  <p>هل تثق بالإجابة؟ — تجربة رقمية في التفكير النقدي والتحقق من إجابات الذكاء الاصطناعي.</p>
+  <p>Designed & developed as an interactive digital experience.</p>
+</footer>
+
+<script>
+let selections = {c1:null,c2:null,c3:null};
+
+function openCase(index,button){
+  document.querySelectorAll('.case-content').forEach(x=>{
+    x.classList.remove('active');
+  });
+
+  document.querySelectorAll('.case-btn').forEach(x=>{
+    x.classList.remove('active');
+  });
+
+  document.getElementById('case'+index).classList.add('active');
+  button.classList.add('active');
+
+  document.getElementById('progressBar').style.width =
+    ((index+1)/3*100)+'%';
+}
+
+function choose(button,id,letter){
+  const parent=button.parentElement;
+
+  parent.querySelectorAll('.answer').forEach(x=>{
+    x.classList.remove('selected');
+  });
+
+  button.classList.add('selected');
+  selections[id]=letter;
+}
+
+function reveal(id){
+  if(!selections[id]){
+    alert('اختاري إحدى الإجابات أولًا، ثم اكشفي التحليل.');
+    return;
+  }
+
+  const panel=document.getElementById('reveal-'+id);
+  panel.classList.add('show');
+
+  panel.scrollIntoView({
+    behavior:'smooth',
+    block:'nearest'
+  });
+}
+
+document.getElementById('progressBar').style.width='33.33%';
+</script>
+
+</body>
+</html>
